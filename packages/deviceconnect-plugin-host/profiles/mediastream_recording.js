@@ -90,8 +90,12 @@ function onPutPreview(request, response) {
         return;
     }
     if (recorder.module == 'raspicam') {
+/*
       command = 'mjpg_streamer -o \"output_http.so -w ./www -p ' + MJPEG_RASPICAM_PORT
         + '\" -i \"input_raspicam.so -r ' + aspect.previewWidth + 'x' + aspect.previewHeight + '\" -b';
+*/
+      command = `mjpg_streamer -o "output_http.so -w ./www -p ${MJPEG_RASPICAM_PORT}" -i "input_raspicam.so -x ${aspect.previewWidth} -y ${aspect.previewHeight} -fps 30 -q 10" -b`
+      console.log(command)
       response.put('uri', 'http://localhost:' + MJPEG_RASPICAM_PORT + '/?action=stream&timestamp=' + new Date().getTime());
     } else if (recorder.type == 'audio') {
       command = undefined;
